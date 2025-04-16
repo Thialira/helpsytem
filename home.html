@@ -3,13 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="stylelogin.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="... integrity hash ..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Home</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://npmcdn.com/parse/dist/parse.min.js"></script>
-    <script src="https://unpkg.com/parse@latest/dist/parse.min.js"></script>
-    <script src="scriptCategorias.js"></script>
-
     <style>
         body {
             font-family: sans-serif;
@@ -60,27 +56,49 @@
             margin: 0 auto; /* Centraliza a logo dentro do container */
         }
 
-        .usuario-destaque {
+        .usuario-container {
             position: absolute;
             top: 10px;
             right: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .usuario-nome {
             font-weight: bold;
             color: #fff;
             padding: 8px;
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 5px;
             text-decoration: none;
+            margin-bottom: 5px; /* Espaço entre o nome e o botão */
         }
 
-        .usuario-destaque:hover {
+        .logout-button {
+            background: #003e5a;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 3px;
+        }
+
+        .logout-button:hover {
             opacity: 0.8;
         }
 
+.logout-icon {
+    width: 50px; /* Ajuste o tamanho conforme necessário */
+    height: 50px;
+    background-image: url('imagens/sair2.png'); /* Caminho para a sua imagem PNG transparente */
+    background-repeat: no-repeat;
+    background-size: contain; /* Ou outro valor conforme sua preferência */
+    display: inline-block;
+}
         .content {
             padding-top: 80px; /* Adiciona padding para evitar que o conteúdo fique atrás do cabeçalho fixo (ajuste conforme a altura do header) */
             text-align: center; /* Centraliza o texto abaixo da logo */
             padding: 110px;
-            max-width: 600px; /* Define a largura máxima da área principal da página */
         }
 
         .forum-info {
@@ -132,7 +150,6 @@
             justify-content: center; /* Centraliza os botões horizontalmente */
             gap: 10px;
             margin-bottom: 20px;
-            flex-wrap: wrap; /* Permite que os itens flex quebrem para a próxima linha */
         }
 
         .categoria-button {
@@ -148,37 +165,6 @@
 
         .categoria-button:hover {
             background-color: #ccc;
-        }
-
-        .categoria-button:active {
-            background-color: #003e5a; /* A cor quando ativo */
-            color: #ddd; /* A cor do texto quando ativo */
-        }
-
-        .categoria-button-ativo {
-            background-color: #003e5a; /* A cor quando ativo */
-            color: #ddd; /* A cor do texto quando ativo */
-        }
-
-    /* Formatação da pesquisa */
-
-                /* Estilo para o input de pesquisa para torná-lo um container de posicionamento */
-        input[type="pesquisa"]#campoPesquisa {
-            position: relative;
-            padding-right: 25px; /* Adiciona um padding à direita para espaço do ícone */
-        }
-
-             /* Estilo para o ícone de limpar */
-        .clear-icon {
-            position: absolute;
-            /* Tentando posicionar no canto direito do input */
-            left: 72%;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #002d42;
-            cursor: pointer;
-            display: none;
-            z-index: 3;
         }
 
         .ultimas-postagens {
@@ -205,41 +191,38 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            text-align: left; /* Garante que o texto dentro do li não seja centralizado */
         }
 
         .ultimas-postagens li:last-child {
             border-bottom: none;
         }
 
-        .ultimas-postagens li a {
+        .ultimas-postagens a {
             text-decoration: none;
             color: #333;
-            text-decoration: underline;
-            text-align: left; /* Alinha o texto do link à esquerda */
-            flex-grow: 1; /* Permite que o link ocupe mais espaço */
         }
 
-        .ultimas-postagens li a:hover {
+        .ultimas-postagens a:hover {
             color: #003e5a;
         }
 
-        .ultimas-postagens li span {
+        .ultimas-postagens span {
             color: #777;
             font-size: 0.8em;
-            text-align: right; /* Alinha o texto do span à direita */
-            margin-left: 10px; /* Adiciona um pouco de espaço entre o link e o span */
-            flex-shrink: 0; /* Evita que o span encolha */
         }
     </style>
-
 </head>
 <body>
     <div class="header">
         <div class="logo-container">
             <img src="imagens/logo3.png" alt="Logo da Empresa" class="logo">
         </div>
-        <a id="linkPerfil" href="perfil.html" class="usuario-destaque"></a>
+        <div class="usuario-container">
+            <a id="linkPerfil" href="perfil.html" class="usuario-nome"></a>
+            <button id="logoutButton" class="logout-button">
+                <span class="logout-icon"></span>
+            </button>
+        </div>
     </div>
 
     <div class="content">
@@ -252,31 +235,10 @@
         <div class="categorias">
             <h2>Categorias</h2>
             <div class="categorias-buttons">
-                <a href="#" class="categoria-button" data-categoria="Acesso">Acesso</a>
-                <a href="#" class="categoria-button" data-categoria="Benefícios">Benefícios</a>
-                <a href="#" class="categoria-button" data-categoria="Carreira">Carreira</a>
-                <a href="#" class="categoria-button" data-categoria="Email">Email</a>
-                <a href="#" class="categoria-button" data-categoria="Ferramentas">Ferramentas</a>
-                <a href="#" class="categoria-button" data-categoria="Financeiro">Financeiro</a>
-                <a href="#" class="categoria-button" data-categoria="Hardware">Hardware</a>
-                <a href="#" class="categoria-button" data-categoria="Impressora">Impressora</a>
-                <a href="#" class="categoria-button" data-categoria="Integração">Integração</a>
-                <a href="#" class="categoria-button" data-categoria="Políticas Internas">Políticas Internas</a>
-                <a href="#" class="categoria-button" data-categoria="Projetos">Projetos</a>
-                <a href="#" class="categoria-button" data-categoria="Rede">Rede</a>
-                <a href="#" class="categoria-button" data-categoria="Software">Software</a>
-                <a href="#" class="categoria-button" data-categoria="TI">TI</a>
-                <a href="#" class="categoria-button" data-categoria="todos">Todas</a>
-            </div>
-        </div>
-
-
-        <div class="input-group">
-            <div class="input-with-icon">
-                <i class="fa fa-search icon" aria-hidden="true"></i>
-                <input type="pesquisa" required placeholder="Encontre as perguntas já feitas" id="campoPesquisa">
-                <i class="fa fa-times-circle clear-icon"></i>
-                <button type="button" class="btn-pesquisa">Pesquisar</button>
+                <a href="#" class="categoria-button">TI</a>
+                <a href="#" class="categoria-button">Processos Internos</a>
+                <a href="#" class="categoria-button">DepartamentoPessoal</a>
+                <a href="#" class="categoria-button">Happy Hour</a>
             </div>
         </div>
 
@@ -285,160 +247,88 @@
             <ul id="listaUltimasPostagens">
             </ul>
         </div>
-
-        <div id="paginacaoContainer" style="display: flex; justify-content: center; margin-top: 20px;">
-            <button id="botaoAnterior" style="display: none; margin-right: 10px;">Anterior</button>
-            <button id="botaoSeguinte" style="display: none;">Seguinte</button>
-        </div>
-
     </div>
-
-    <script src="scriptPesquisa.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const nomeUsuario = localStorage.getItem('nomeUsuario');
             const linkPerfil = document.getElementById('linkPerfil');
+            const logoutButton = document.getElementById('logoutButton');
             const listaUltimasPostagens = document.getElementById('listaUltimasPostagens');
-            const paginacaoContainer = document.getElementById('paginacaoContainer');
-            const botoesCategoria = document.querySelectorAll('.categoria-button');
-    
-            let paginaAtual = 1;
-            const resultadosPorPagina = 10;
-            let totalDeSolicitacoes = 0;
-            let totalDePaginas = 0;
-            let categoriaAtiva = 'todos';
-    
+
             if (nomeUsuario && linkPerfil) {
                 linkPerfil.textContent = nomeUsuario;
                 linkPerfil.title = 'Perfil de ' + nomeUsuario;
             }
-    
-            Parse.initialize("BAEFn0L1NuWmT3KSiQY7LZX0yFEA0lzQWgSnReeO", "TxYFJkMIjKNzhSujfhx17x1t47xqEEeM5Kdo4KTT");
+
+            logoutButton.addEventListener('click', function() {
+                // Limpar informações de login (opcional, dependendo da sua implementação)
+                localStorage.removeItem('nomeUsuario');
+                // Redirecionar para a tela de login
+                window.location.href = 'login.html';
+            });
+
+            Parse.initialize("H3GRve4kYM8gv7XXVmXEFW6K7YLw6MIcieiU1OPp", "rcRV7nu2Y6PWMg0DboqC91Evb3z1WvXSA1iogMPD");
             Parse.serverURL = 'https://parseapi.back4app.com/';
-    
-            async function obterTotalDeSolicitacoes(categoria = 'todos') {
-                const Solicitacao = Parse.Object.extend("solicitacao");
-                const query = new Parse.Query(Solicitacao);
-    
-                if (categoria !== 'todos') {
-                    query.equalTo("categoria", categoria);
-                }
-    
-                totalDeSolicitacoes = await query.count();
-                totalDePaginas = Math.ceil(totalDeSolicitacoes / resultadosPorPagina);
-                atualizarBotoesPaginacao();
-            }
-    
-            async function buscarSolicitacoesDaPagina(pagina, categoria = 'todos') {
+
+            async function buscarUltimasSolicitacoes() {
                 const Solicitacao = Parse.Object.extend("solicitacao");
                 const query = new Parse.Query(Solicitacao);
                 query.descending("createdAt");
-                query.limit(resultadosPorPagina);
-                query.skip((pagina - 1) * resultadosPorPagina);
-    
-                if (categoria !== 'todos') {
-                    query.equalTo("categoria", categoria);
-                }
-    
+                query.limit(10);
+
                 try {
                     const results = await query.find();
                     listaUltimasPostagens.innerHTML = '';
-                    exibirSolicitacoes(results);
-                } catch (error) {
-                    console.error("Erro ao buscar as solicitações:", error);
-                    listaUltimasPostagens.innerHTML = '<li>Erro ao carregar as solicitações.</li>';
-                }
-            }
-    
-            function exibirSolicitacoes(solicitacoes) {
-                const currentUser = Parse.User.current();
-                const currentUserId = currentUser ? currentUser.id : null;
-    
-                if (solicitacoes.length > 0) {
-                    solicitacoes.forEach(solicitacao => {
-                        const titulo = solicitacao.get("titulo");
-                        const nomeCriador = solicitacao.get("usuario");
-                        const objectId = solicitacao.id;
-                        const hasnovaresposta = solicitacao.get("hasnovaresposta") || [];
-                        const temNovaRespostaParaUsuario = currentUserId && hasnovaresposta.includes(currentUserId);
-    
+
+                    const currentUser = Parse.User.current();
+                    const currentUserId = currentUser ? currentUser.id : null;
+
+                    if (results.length > 0) {
+                        results.forEach(solicitacao => {
+                            const titulo = solicitacao.get("titulo");
+                            const nomeCriador = solicitacao.get("usuario");
+                            const objectId = solicitacao.id;
+                            const hasnovaresposta = solicitacao.get("hasnovaresposta") || [];
+                            const temNovaRespostaParaUsuario = currentUserId && hasnovaresposta.includes(currentUserId);
+
+                            const listItem = document.createElement('li');
+                            const link = document.createElement('a');
+                            link.href = `resposta.html?id=${objectId}`;
+                            link.textContent = titulo;
+
+                            const spanCriador = document.createElement('span');
+                            spanCriador.textContent = `${nomeCriador}`;
+                            spanCriador.style.color = '#777';
+                            spanCriador.style.fontSize = '0.8em';
+                            spanCriador.style.marginLeft = '5px';
+
+                            listItem.appendChild(link);
+                            listItem.appendChild(spanCriador);
+
+                            if (temNovaRespostaParaUsuario) {
+                                const novaRespostaSpan = document.createElement('span');
+                                novaRespostaSpan.classList.add('nova-resposta');
+                                novaRespostaSpan.textContent = '(Nova Resposta)';
+                                listItem.appendChild(novaRespostaSpan);
+                            }
+
+                            listaUltimasPostagens.appendChild(listItem);
+                        });
+                    } else {
                         const listItem = document.createElement('li');
-                        const link = document.createElement('a');
-                        link.href = `resposta.html?id=${objectId}`;
-                        link.textContent = titulo;
-    
-                        const spanCriador = document.createElement('span');
-                        spanCriador.textContent = `${nomeCriador}`;
-                        spanCriador.style.color = '#777';
-                        spanCriador.style.fontSize = '0.8em';
-                        spanCriador.style.marginLeft = '5px';
-    
-                        listItem.appendChild(link);
-                        listItem.appendChild(spanCriador);
-    
-                        if (temNovaRespostaParaUsuario) {
-                            const novaRespostaSpan = document.createElement('span');
-                            novaRespostaSpan.classList.add('nova-resposta');
-                            novaRespostaSpan.textContent = '(Nova Resposta)';
-                            listItem.appendChild(novaRespostaSpan);
-                        }
-    
+                        listItem.textContent = 'Nenhuma solicitação encontrada.';
                         listaUltimasPostagens.appendChild(listItem);
-                    });
-                } else {
+                    }
+                } catch (error) {
+                    console.error("Erro ao buscar as últimas solicitações:", error);
                     const listItem = document.createElement('li');
-                    listItem.textContent = 'Nenhuma solicitação encontrada.';
+                    listItem.textContent = 'Erro ao carregar as solicitações.';
                     listaUltimasPostagens.appendChild(listItem);
                 }
             }
-    
-            function atualizarBotoesPaginacao() {
-                paginacaoContainer.innerHTML = '';
-    
-                if (totalDePaginas > 1) {
-                    const botaoAnterior = document.createElement('button');
-                    botaoAnterior.textContent = 'Anterior';
-                    botaoAnterior.id = 'botaoAnterior';
-                    botaoAnterior.disabled = paginaAtual === 1;
-                    botaoAnterior.addEventListener('click', () => {
-                        if (paginaAtual > 1) {
-                            paginaAtual--;
-                            buscarSolicitacoesDaPagina(paginaAtual, categoriaAtiva);
-                            atualizarBotoesPaginacao();
-                        }
-                    });
-                    paginacaoContainer.appendChild(botaoAnterior);
-    
-                    const botaoSeguinte = document.createElement('button');
-                    botaoSeguinte.textContent = 'Seguinte';
-                    botaoSeguinte.id = 'botaoSeguinte';
-                    botaoSeguinte.disabled = paginaAtual === totalDePaginas;
-                    botaoSeguinte.addEventListener('click', () => {
-                        if (paginaAtual < totalDePaginas) {
-                            paginaAtual++;
-                            buscarSolicitacoesDaPagina(paginaAtual, categoriaAtiva);
-                            atualizarBotoesPaginacao();
-                        }
-                    });
-                    paginacaoContainer.appendChild(botaoSeguinte);
-                }
-            }
-    
-            botoesCategoria.forEach(botao => {
-                botao.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const categoriaSelecionada = this.dataset.categoria;
-                    paginaAtual = 1;
-                    categoriaAtiva = categoriaSelecionada;
-                    buscarSolicitacoesDaPagina(paginaAtual, categoriaSelecionada);
-                    obterTotalDeSolicitacoes(categoriaSelecionada);
-                });
-            });
-    
-            obterTotalDeSolicitacoes('todos').then(() => {
-                buscarSolicitacoesDaPagina(paginaAtual, 'todos');
-            });
+
+            buscarUltimasSolicitacoes();
         });
     </script>
 </body>
